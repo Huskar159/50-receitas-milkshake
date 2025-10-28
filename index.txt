@@ -1,0 +1,962 @@
+import React, { useState } from 'react';
+import { ChevronDown, ChevronUp, DollarSign, Clock, Users, TrendingUp } from 'lucide-react';
+
+const EbookMilkshakes = () => {
+  const [expandedRecipe, setExpandedRecipe] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const recipes = [
+    {
+      category: "CLÁSSICOS QUE VENDEM",
+      items: [
+        {
+          name: "Milkshake Ovomaltine Supremo",
+          price: "R$ 15-20",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite gelado", "4 col. sopa Ovomaltine", "Chantilly", "Ovomaltine para decorar"],
+          steps: ["Bata sorvete + leite + Ovomaltine", "Sirva em copo alto", "Cubra com chantilly", "Polvilhe Ovomaltine generosamente", "Decore com wafer"],
+          cost: "R$ 4,50",
+          profit: "R$ 10,50",
+          tip: "Capriche na decoração! Espalhe Ovomaltine na borda interna do copo antes de servir"
+        },
+        {
+          name: "Nutella Dream",
+          price: "R$ 18-25",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "3 col. sopa Nutella", "Calda chocolate", "Chantilly", "Avelãs picadas"],
+          steps: ["Espalhe Nutella nas paredes do copo", "Bata sorvete + leite + 2 col Nutella", "Sirva no copo preparado", "Finalize com chantilly e avelãs", "Drizzle de chocolate"],
+          cost: "R$ 5,80",
+          profit: "R$ 12,20",
+          tip: "Aqueça levemente a Nutella antes de espalhar no copo para efeito profissional"
+        },
+        {
+          name: "Morango Cheesecake",
+          price: "R$ 16-22",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "150ml leite", "100g morangos", "50g cream cheese", "Biscoito maisena triturado", "Calda morango"],
+          steps: ["Bata tudo exceto biscoito", "Alterne camadas: milkshake e biscoito no copo", "Finalize com chantilly", "Morango fresco no topo", "Calda de morango"],
+          cost: "R$ 5,20",
+          profit: "R$ 11,80",
+          tip: "Reserve alguns pedaços de morango para camadas visíveis no copo"
+        },
+        {
+          name: "Oreo Explosion",
+          price: "R$ 14-19",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "6 Oreos (4 bater + 2 decorar)", "Chantilly", "Calda chocolate"],
+          steps: ["Triture 4 Oreos grosseiramente", "Bata com sorvete e leite", "Sirva em copo com Oreo colado dentro", "Chantilly generoso", "Oreo inteiro no topo"],
+          cost: "R$ 3,80",
+          profit: "R$ 11,20",
+          tip: "Cole Oreos nas paredes do copo com calda antes de servir - efeito visual incrível"
+        },
+        {
+          name: "Prestígio Gourmet",
+          price: "R$ 17-23",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "150ml leite de coco", "2 col. sopa chocolate em pó", "Coco ralado", "Calda chocolate", "Raspas de chocolate"],
+          steps: ["Bata sorvete + leite coco + chocolate", "Passe borda do copo em calda + coco ralado", "Sirva o milkshake", "Chantilly e chocolate ralado", "Calda de chocolate por cima"],
+          cost: "R$ 4,90",
+          profit: "R$ 12,10",
+          tip: "Use leite de coco integral para sabor mais intenso"
+        }
+      ]
+    },
+    {
+      category: "CHOCOLATE LOVERS",
+      items: [
+        {
+          name: "Brownie Milkshake",
+          price: "R$ 19-26",
+          time: "8 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete chocolate", "200ml leite", "1 brownie médio", "Calda chocolate", "Chantilly", "Brownie em cubos (decoração)"],
+          steps: ["Reserve metade do brownie", "Bata sorvete + leite + metade brownie", "Camadas: milkshake + pedaços brownie", "Chantilly generoso", "Brownie no topo + calda"],
+          cost: "R$ 6,50",
+          profit: "R$ 13,50",
+          tip: "Use brownie caseiro - diferencial enorme no sabor e custo"
+        },
+        {
+          name: "Ferrero Rocher Shake",
+          price: "R$ 22-30",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete avelã", "200ml leite", "2 Ferrero Rocher (bater)", "Nutella", "Chantilly", "1 Ferrero inteiro (topo)", "Avelãs"],
+          steps: ["Bata sorvete + leite + 2 Ferreros", "Espalhe Nutella no copo", "Sirva o milkshake", "Monte chantilly alto", "Ferrero no topo + avelãs"],
+          cost: "R$ 7,20",
+          profit: "R$ 15,80",
+          tip: "Produto premium - justifica preço alto. Capriche na apresentação"
+        },
+        {
+          name: "Chocolate Belga Intenso",
+          price: "R$ 20-27",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete chocolate", "180ml leite", "50g chocolate meio amargo derretido", "Cacau em pó", "Chantilly", "Raspas chocolate"],
+          steps: ["Derreta o chocolate", "Bata com sorvete e leite", "Passe borda em cacau", "Sirva bem gelado", "Finalize com raspas generosas"],
+          cost: "R$ 5,60",
+          profit: "R$ 14,40",
+          tip: "Chocolate meio amargo 50-70% cacau - sabor adulto e sofisticado"
+        },
+        {
+          name: "Bis Xtra Shake",
+          price: "R$ 15-21",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "1 pacote Bis Xtra (10 unidades)", "Chantilly", "Calda chocolate"],
+          steps: ["Separe 2 Bis para decoração", "Bata restante com sorvete e leite", "Cole Bis nas paredes do copo", "Sirva o milkshake", "Bis no topo + calda"],
+          cost: "R$ 4,20",
+          profit: "R$ 11,80",
+          tip: "Bis é ingrediente barato e rende muito! Ótima margem"
+        },
+        {
+          name: "Kinder Bueno Luxo",
+          price: "R$ 21-28",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "2 Kinder Bueno", "Nutella", "Chantilly", "Wafer"],
+          steps: ["Pique 1 Kinder Bueno", "Bata com sorvete e leite", "Espalhe Nutella no copo", "Sirva e decore", "Kinder inteiro enfiado no topo"],
+          cost: "R$ 6,80",
+          profit: "R$ 14,20",
+          tip: "Enfie o Kinder na diagonal - fica instagramável"
+        }
+      ]
+    },
+    {
+      category: "FRUTAS TROPICAIS",
+      items: [
+        {
+          name: "Açaí Milkshake",
+          price: "R$ 16-22",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["200g açaí puro", "2 bolas sorvete creme", "100ml leite", "Banana", "Granola", "Frutas para decorar"],
+          steps: ["Bata açaí + sorvete + leite + banana", "Sirva em copo", "Granola por cima", "Decore com frutas", "Mel a gosto"],
+          cost: "R$ 5,50",
+          profit: "R$ 11,50",
+          tip: "Use açaí de qualidade - faz diferença no sabor e textura"
+        },
+        {
+          name: "Manga Tropical",
+          price: "R$ 14-19",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["1 manga madura", "3 bolas sorvete creme", "150ml leite de coco", "Mel", "Hortelã"],
+          steps: ["Descasque e pique a manga", "Bata tudo até cremoso", "Sirva bem gelado", "Decore com manga fresca", "Folhas de hortelã"],
+          cost: "R$ 4,20",
+          profit: "R$ 10,80",
+          tip: "Manga palmer ou tommy - mais doces e cremosas"
+        },
+        {
+          name: "Frutas Vermelhas Premium",
+          price: "R$ 18-24",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["Mix frutas vermelhas 150g", "3 bolas sorvete creme", "200ml leite", "Mel", "Iogurte natural 50g"],
+          steps: ["Reserve algumas frutas", "Bata o restante com demais ingredientes", "Sirva em camadas", "Frutas frescas por cima", "Hortelã"],
+          cost: "R$ 6,20",
+          profit: "R$ 12,80",
+          tip: "Mix congelado sai mais barato e rende igual"
+        },
+        {
+          name: "Abacaxi com Hortelã",
+          price: "R$ 13-18",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["200g abacaxi", "3 bolas sorvete creme", "200ml leite", "Hortelã fresca", "Mel"],
+          steps: ["Bata abacaxi + sorvete + leite + hortelã", "Sirva gelado", "Decore com abacaxi e hortelã", "Pode adicionar gelo", "Refrescante"],
+          cost: "R$ 3,80",
+          profit: "R$ 10,20",
+          tip: "Abacaxi bem maduro = mais doce, menos açúcar necessário"
+        },
+        {
+          name: "Coco Cremoso",
+          price: "R$ 15-20",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite de coco", "Coco ralado 50g", "Leite condensado 50ml", "Coco fresco"],
+          steps: ["Bata tudo exceto coco fresco", "Sirva em copo", "Decore com coco ralado", "Raspas de coco fresco", "Canudo grosso"],
+          cost: "R$ 4,50",
+          profit: "R$ 11,50",
+          tip: "Torrar levemente o coco ralado antes - sabor incrível"
+        }
+      ]
+    },
+    {
+      category: "FITNESS & SAUDÁVEIS",
+      items: [
+        {
+          name: "Protein Chocolate Shake",
+          price: "R$ 18-25",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["1 dose whey chocolate", "2 bolas sorvete zero", "250ml leite desnatado", "1 banana", "Cacau em pó", "Pasta amendoim"],
+          steps: ["Bata todos ingredientes", "Adicione gelo se quiser", "Sirva em copo", "Polvilhe cacau", "Banana fatiada no topo"],
+          cost: "R$ 6,50",
+          profit: "R$ 12,50",
+          tip: "Público fitness paga mais - destaque os macros na venda"
+        },
+        {
+          name: "Green Power Shake",
+          price: "R$ 16-22",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["2 bolas sorvete zero", "200ml leite vegetal", "1 banana", "Espinafre 30g", "Abacate 50g", "Mel", "Chia"],
+          steps: ["Bata tudo até ficar verde uniforme", "Sirva gelado", "Sementes de chia por cima", "Frutas frescas", "Hortelã"],
+          cost: "R$ 5,20",
+          profit: "R$ 11,80",
+          tip: "Espinafre não altera sabor - só deixa verde e nutritivo"
+        },
+        {
+          name: "Pasta de Amendoim Fit",
+          price: "R$ 17-23",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["1 dose whey baunilha", "2 bolas sorvete zero", "200ml leite desnatado", "2 col. pasta amendoim", "Banana", "Canela"],
+          steps: ["Bata todos ingredientes", "Sirva em copo", "Drizzle pasta amendoim", "Banana fatiada", "Polvilhe canela"],
+          cost: "R$ 6,20",
+          profit: "R$ 11,80",
+          tip: "Pasta de amendoim integral - mais saudável e saborosa"
+        },
+        {
+          name: "Açaí Protein",
+          price: "R$ 19-26",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["200g açaí", "1 dose whey chocolate", "1 banana", "Leite desnatado 100ml", "Granola", "Frutas"],
+          steps: ["Bata açaí + whey + banana + leite", "Sirva em copo/tigela", "Granola por cima", "Frutas frescas", "Mel opcional"],
+          cost: "R$ 7,20",
+          profit: "R$ 12,80",
+          tip: "Opção tigela vende mais caro - ofereça as duas versões"
+        },
+        {
+          name: "Aveia com Canela Zero",
+          price: "R$ 14-19",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete zero", "200ml leite desnatado", "3 col. aveia", "Canela", "Banana", "Mel"],
+          steps: ["Bata tudo", "Deixe descansar 2 min (aveia hidratar)", "Sirva gelado", "Canela generosa por cima", "Banana"],
+          cost: "R$ 3,80",
+          profit: "R$ 11,20",
+          tip: "Aveia em flocos finos bate melhor que a grossa"
+        }
+      ]
+    },
+    {
+      category: "CAFÉ & ENERGÉTICOS",
+      items: [
+        {
+          name: "Café Gelado Supremo",
+          price: "R$ 16-22",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["200ml café forte gelado", "3 bolas sorvete creme", "50ml leite condensado", "Chantilly", "Chocolate ralado", "Café em pó"],
+          steps: ["Prepare café e deixe esfriar", "Bata café + sorvete + leite condensado", "Sirva em copo", "Monte chantilly", "Polvilhe café em pó"],
+          cost: "R$ 4,80",
+          profit: "R$ 12,20",
+          tip: "Café forte e bem gelado é essencial - prepare com antecedência"
+        },
+        {
+          name: "Mocha Frappé",
+          price: "R$ 17-24",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["150ml café expresso gelado", "3 bolas sorvete chocolate", "100ml leite", "Calda chocolate", "Chantilly", "Cacau"],
+          steps: ["Bata café + sorvete + leite", "Calda chocolate nas paredes do copo", "Sirva o milkshake", "Chantilly alto", "Cacau + calda"],
+          cost: "R$ 5,20",
+          profit: "R$ 12,80",
+          tip: "Expresso dá sabor mais intenso que café coado"
+        },
+        {
+          name: "Caramelo Macchiato Shake",
+          price: "R$ 18-25",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["150ml café gelado", "3 bolas sorvete creme", "Calda caramelo", "100ml leite", "Chantilly", "Sal grosso (pitada)"],
+          steps: ["Calda caramelo no fundo do copo", "Bata café + sorvete + leite", "Sirva sobre a calda", "Chantilly generoso", "Calda + sal por cima"],
+          cost: "R$ 5,50",
+          profit: "R$ 13,50",
+          tip: "Pitada de sal no caramelo = salted caramel (tendência)"
+        },
+        {
+          name: "Cookies & Coffee",
+          price: "R$ 16-22",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["150ml café gelado", "3 bolas sorvete creme", "3 cookies chocolate", "100ml leite", "Chantilly", "Cookie decoração"],
+          steps: ["Quebre 2 cookies grosseiramente", "Bata com café, sorvete e leite", "Sirva em copo", "Chantilly", "Cookie inteiro no topo"],
+          cost: "R$ 4,90",
+          profit: "R$ 11,10",
+          tip: "Cookies caseiros dão toque artesanal e custam menos"
+        },
+        {
+          name: "Cappuccino Gelado",
+          price: "R$ 15-21",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["200ml café gelado", "3 bolas sorvete creme", "100ml leite", "Canela", "Chantilly", "Cacau"],
+          steps: ["Bata café + sorvete + leite", "Sirva gelado", "Chantilly por cima", "Mix: canela + cacau polvilhado", "Sirva imediatamente"],
+          cost: "R$ 3,90",
+          profit: "R$ 11,10",
+          tip: "Proporção: mais café que leite para sabor marcante"
+        }
+      ]
+    },
+    {
+      category: "SOBREMESAS CLÁSSICAS",
+      items: [
+        {
+          name: "Torta de Limão Shake",
+          price: "R$ 17-23",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "Suco 2 limões", "200ml leite", "Leite condensado 100ml", "Biscoito maisena triturado", "Raspas limão"],
+          steps: ["Bata sorvete + suco limão + leite + condensado", "Camadas: milkshake + biscoito no copo", "Finalize com chantilly", "Raspas de limão", "Biscoito decoração"],
+          cost: "R$ 4,60",
+          profit: "R$ 13,40",
+          tip: "Balance o azedo do limão com leite condensado ao seu gosto"
+        },
+        {
+          name: "Pavê de Chocolate Líquido",
+          price: "R$ 16-22",
+          time: "8 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete chocolate", "200ml leite", "Biscoito champagne 50g", "Creme de leite 100ml", "Chocolate ralado", "Calda"],
+          steps: ["Deixe biscoitos de molho no leite", "Bata sorvete + leite + creme", "Camadas: shake + biscoito embebido", "Chocolate ralado", "Calda por cima"],
+          cost: "R$ 5,20",
+          profit: "R$ 11,80",
+          tip: "Biscoito champagne absorve bem - textura de pavê mesmo"
+        },
+        {
+          name: "Banoffee Shake",
+          price: "R$ 18-25",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "2 bananas", "Doce de leite 100g", "200ml leite", "Biscoito triturado", "Chantilly"],
+          steps: ["Bata sorvete + 1 banana + leite + metade doce", "Alterne camadas com doce de leite", "Biscoito triturado entre camadas", "Chantilly", "Banana fatiada topo"],
+          cost: "R$ 5,80",
+          profit: "R$ 13,20",
+          tip: "Doce de leite caseiro fica mais barato e saboroso"
+        },
+        {
+          name: "Pudim de Leite Shake",
+          price: "R$ 15-21",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "Leite condensado 100ml", "Calda caramelo", "Essência baunilha"],
+          steps: ["Calda caramelo no fundo do copo", "Bata sorvete + leite + condensado + baunilha", "Sirva sobre calda", "Mais calda por cima", "Pode decorar com cerejas"],
+          cost: "R$ 4,20",
+          profit: "R$ 11,80",
+          tip: "Caramelizar açúcar em casa = calda autêntica e econômica"
+        },
+        {
+          name: "Beijinho Milkshake",
+          price: "R$ 14-19",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite de coco", "Leite condensado 80ml", "Coco ralado", "Cravo decoração"],
+          steps: ["Bata sorvete + leite coco + condensado", "Passe borda em coco ralado", "Sirva bem gelado", "Mais coco por cima", "Cravo no topo"],
+          cost: "R$ 3,80",
+          profit: "R$ 11,20",
+          tip: "Leite de coco integral = sabor mais intenso"
+        }
+      ]
+    },
+    {
+      category: "CANDY & DOCES",
+      items: [
+        {
+          name: "M&M's Rainbow",
+          price: "R$ 15-21",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "1 pacote M&M's (50g)", "Chantilly", "M&M's decoração", "Calda chocolate"],
+          steps: ["Reserve alguns M&M's", "Bata restante com sorvete e leite", "Sirva em copo", "Chantilly generoso", "M&M's por cima + calda"],
+          cost: "R$ 4,50",
+          profit: "R$ 11,50",
+          tip: "Visual colorido atrai muito - tire foto antes de entregar"
+        },
+        {
+          name: "Fini Milkshake",
+          price: "R$ 13-18",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "Balas Fini 80g (várias)", "Chantilly", "Mais Fini decoração"],
+          steps: ["Separe Fini para decoração", "Bata algumas balas com sorvete e leite", "Sirva", "Enfie Fini no chantilly", "Visual divertido"],
+          cost: "R$ 3,80",
+          profit: "R$ 10,20",
+          tip: "Público infantil AMA - ótimo para festas"
+        },
+        {
+          name: "Kit Kat Crunch",
+          price: "R$ 16-22",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "2 Kit Kat (4 fingers)", "Calda chocolate", "Chantilly"],
+          steps: ["Quebre 1 Kit Kat", "Bata com sorvete e leite", "Cole fingers Kit Kat no copo interno", "Sirva shake", "Kit Kat inteiro no topo"],
+          cost: "R$ 4,80",
+          profit: "R$ 11,20",
+          tip: "Fingers do Kit Kat colados = efeito visual matador"
+        },
+        {
+          name: "Brigadeiro Milkshake",
+          price: "R$ 14-20",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete chocolate", "200ml leite", "Leite condensado 100ml", "Chocolate em pó 2 col", "Granulado", "Chantilly"],
+          steps: ["Bata sorvete + leite + condensado + chocolate", "Passe borda em granulado", "Sirva o milkshake", "Chantilly", "Chuva de granulado"],
+          cost: "R$ 3,90",
+          profit: "R$ 11,10",
+          tip: "Brigadeiro é paixão nacional - vende MUITO"
+        },
+        {
+          name: "Paçoca Cremosa",
+          price: "R$ 15-21",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "5 paçocas grandes", "Pasta amendoim 1 col", "Chantilly", "Paçoca decoração"],
+          steps: ["Esmague 4 paçocas", "Bata com sorvete, leite e pasta amendoim", "Sirva em copo", "Chantilly", "Paçoca esfarelada por cima"],
+          cost: "R$ 4,20",
+          profit: "R$ 11,80",
+          tip: "Paçoca é barata e rende muito - ótima margem"
+        }
+      ]
+    },
+    {
+      category: "INTERNACIONAIS",
+      items: [
+        {
+          name: "Milkshake Americano Clássico",
+          price: "R$ 17-24",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["4 bolas sorvete baunilha", "150ml leite", "Essência baunilha", "Chantilly", "Cereja", "Calda chocolate"],
+          steps: ["Bata sorvete + leite + essência", "Sirva em copo alto retrô", "Torre de chantilly", "Cereja no topo", "Canudo listrado"],
+          cost: "R$ 4,50",
+          profit: "R$ 13,50",
+          tip: "Copo vintage = diferencial. Procure em lojas de descartáveis"
+        },
+        {
+          name: "S'mores Shake",
+          price: "R$ 18-25",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete chocolate", "200ml leite", "Marshmallow 50g", "Biscoito maria triturado", "Calda chocolate", "Marshmallow maçaricado"],
+          steps: ["Bata sorvete + leite + marshmallow", "Biscoito triturado no fundo", "Sirva o shake", "Chantilly", "Marshmallow maçaricado topo"],
+          cost: "R$ 5,20",
+          profit: "R$ 13,80",
+          tip: "Maçaricar marshmallow = toque profissional (pode usar isqueiro)"
+        },
+        {
+          name: "Tiramisu Shake",
+          price: "R$ 19-26",
+          time: "8 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "150ml café gelado", "100ml leite", "Mascarpone 50g", "Biscoito champagne", "Cacau pó"],
+          steps: ["Bata sorvete + café + leite + mascarpone", "Biscoito embebido em café", "Camadas: shake + biscoito", "Chantilly", "Cacau generoso"],
+          cost: "R$ 6,80",
+          profit: "R$ 13,20",
+          tip: "Mascarpone pode substituir por cream cheese + creme de leite"
+        },
+        {
+          name: "Red Velvet Milkshake",
+          price: "R$ 18-25",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "1 fatia bolo red velvet", "Cream cheese 50g", "Corante vermelho", "Chantilly"],
+          steps: ["Bata sorvete + leite + bolo + cream cheese", "Ajuste cor com corante", "Sirva em copo", "Chantilly", "Pedaço bolo no topo"],
+          cost: "R$ 6,50",
+          profit: "R$ 12,50",
+          tip: "Bolo caseiro ou comprado - ambos funcionam bem"
+        },
+        {
+          name: "Matcha Green Tea",
+          price: "R$ 17-24",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "2 col chá matcha em pó", "Mel 2 col", "Chantilly", "Matcha decoração"],
+          steps: ["Dissolva matcha em pouco leite quente", "Bata com sorvete e restante leite + mel", "Sirva gelado", "Chantilly leve", "Polvilhe matcha"],
+          cost: "R$ 5,80",
+          profit: "R$ 12,20",
+          tip: "Matcha de qualidade faz diferença - não economize"
+        },
+        {
+          name: "Dulce de Leche Argentino",
+          price: "R$ 16-22",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "Doce de leite argentino 120g", "Chantilly", "Canela"],
+          steps: ["Espalhe doce nas paredes do copo", "Bata sorvete + leite + metade doce", "Sirva no copo preparado", "Chantilly alto", "Canela + doce drizzle"],
+          cost: "R$ 4,90",
+          profit: "R$ 11,10",
+          tip: "Doce de leite argentino é mais cremoso que brasileiro"
+        }
+      ]
+    },
+    {
+      category: "VEGANOS & ESPECIAIS",
+      items: [
+        {
+          name: "Milkshake Vegano Chocolate",
+          price: "R$ 18-25",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete vegano chocolate", "200ml leite vegetal (aveia/coco)", "Cacau pó 2 col", "Tâmaras 3 unidades", "Chantilly vegano"],
+          steps: ["Bata tudo até cremoso", "Sirva gelado", "Chantilly vegano", "Cacau nibs", "Identificar como vegano"],
+          cost: "R$ 6,20",
+          profit: "R$ 12,80",
+          tip: "Mercado vegano cresce - destaque o produto"
+        },
+        {
+          name: "Sem Lactose Baunilha",
+          price: "R$ 16-22",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete sem lactose", "200ml leite sem lactose", "Essência baunilha", "Chantilly sem lactose", "Wafer"],
+          steps: ["Bata sorvete + leite + essência", "Sirva em copo", "Chantilly sem lactose", "Wafer decoração", "Identificar claramente"],
+          cost: "R$ 5,50",
+          profit: "R$ 11,50",
+          tip: "Identifique CLARAMENTE - é questão de saúde"
+        },
+        {
+          name: "Proteico Low Carb",
+          price: "R$ 19-27",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["1 dose whey isolado", "2 bolas sorvete zero açúcar", "200ml leite desnatado", "Pasta amendoim 1 col", "Cacau pó", "Adoçante"],
+          steps: ["Bata todos ingredientes", "Ajuste doçura", "Sirva gelado", "Polvilhe cacau", "Informar macros"],
+          cost: "R$ 7,20",
+          profit: "R$ 12,80",
+          tip: "Público fitness QUER saber: calorias, proteínas, carbs"
+        },
+        {
+          name: "Açúcar Zero Morango",
+          price: "R$ 17-23",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete zero", "200ml leite desnatado", "150g morangos", "Adoçante", "Chantilly zero"],
+          steps: ["Bata sorvete + leite + morangos + adoçante", "Prove e ajuste doçura", "Sirva gelado", "Chantilly zero", "Morango fresco"],
+          cost: "R$ 5,80",
+          profit: "R$ 11,20",
+          tip: "Diabéticos e low carb são público fiel - faça bem feito"
+        },
+        {
+          name: "Sem Glúten Cookies",
+          price: "R$ 18-24",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete sem glúten", "200ml leite", "3 cookies sem glúten", "Calda chocolate sem glúten", "Chantilly"],
+          steps: ["Confirme que TUDO é sem glúten", "Bata sorvete + leite + cookies", "Sirva em copo", "Calda e chantilly", "Identificar claramente"],
+          cost: "R$ 6,50",
+          profit: "R$ 12,50",
+          tip: "Cuidado com contaminação cruzada - use utensílios limpos"
+        }
+      ]
+    },
+    {
+      category: "INFANTIL & FESTAS",
+      items: [
+        {
+          name: "Unicórnio Mágico",
+          price: "R$ 18-25",
+          time: "8 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "Corantes (rosa, azul, roxo)", "Chantilly colorido", "Confeitos coloridos", "Marshmallow"],
+          steps: ["Divida shake em 3 partes, cada uma com cor", "Monte em camadas no copo", "Torre de chantilly colorido", "Chuva de confeitos", "Marshmallow"],
+          cost: "R$ 5,20",
+          profit: "R$ 13,80",
+          tip: "Visual é TUDO - quanto mais colorido melhor para crianças"
+        },
+        {
+          name: "Nescau Malvado",
+          price: "R$ 13-18",
+          time: "5 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete chocolate", "200ml leite", "4 col sopa Nescau", "Chantilly", "Nescau decoração", "Wafer"],
+          steps: ["Bata sorvete + leite + Nescau", "Passe borda em Nescau", "Sirva o shake", "Chantilly", "Polvilhe Nescau"],
+          cost: "R$ 3,50",
+          profit: "R$ 10,50",
+          tip: "Criança AMA Nescau - produto certeiro"
+        },
+        {
+          name: "Minions Banana",
+          price: "R$ 14-19",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "2 bananas", "Corante amarelo", "Chantilly", "Confeitos olhos"],
+          steps: ["Bata sorvete + leite + banana + corante", "Sirva amarelo vibrante", "Chantilly", "Cole olhinhos de confeito", "Tema Minions"],
+          cost: "R$ 3,80",
+          profit: "R$ 10,20",
+          tip: "Temas de personagens vendem muito em festas infantis"
+        },
+        {
+          name: "Brigadeiro de Colher Shake",
+          price: "R$ 15-21",
+          time: "6 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete chocolate", "200ml leite", "Leite condensado 100ml", "Chocolate em pó", "Brigadeiros prontos", "Granulado"],
+          steps: ["Bata sorvete + leite + condensado + chocolate", "Sirva em copo", "Brigadeiros inteiros dentro", "Chantilly", "Granulado"],
+          cost: "R$ 4,50",
+          profit: "R$ 11,50",
+          tip: "Brigadeiros gourmet dentro = efeito surpresa"
+        },
+        {
+          name: "Algodão Doce Mágico",
+          price: "R$ 16-22",
+          time: "7 min",
+          popularity: "⭐⭐⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "Essência tutti-frutti", "Corante rosa", "Chantilly rosa", "Algodão doce no topo"],
+          steps: ["Bata sorvete + leite + essência + corante", "Sirva rosa vibrante", "Chantilly rosa", "NUVEM de algodão doce no topo", "Confeitos"],
+          cost: "R$ 4,80",
+          profit: "R$ 12,20",
+          tip: "Algodão doce no topo = foto garantida nas redes sociais"
+        }
+      ]
+    },
+    {
+      category: "PREMIUM & GOURMET",
+      items: [
+        {
+          name: "Gold Luxo (Ouro Comestível)",
+          price: "R$ 35-50",
+          time: "10 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["4 bolas sorvete premium", "150ml leite", "Chocolate belga derretido", "Champanhe/Espumante 50ml", "Chantilly", "Folha ouro comestível"],
+          steps: ["Bata sorvete + leite + chocolate + espumante", "Sirva em taça especial", "Torre de chantilly", "Folha de ouro por cima", "Apresentação luxo"],
+          cost: "R$ 12,00",
+          profit: "R$ 23,00",
+          tip: "Para ocasiões especiais - aniversários, pedidos de casamento"
+        },
+        {
+          name: "Trufado Premium",
+          price: "R$ 28-38",
+          time: "9 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["4 bolas sorvete chocolate premium", "150ml leite", "3 trufas gourmet", "Calda ganache", "Raspas chocolate 70%", "Chantilly"],
+          steps: ["Bata sorvete + leite + 2 trufas", "Ganache nas paredes do copo", "Sirva o shake", "Chantilly alto", "Trufa inteira + raspas"],
+          cost: "R$ 10,50",
+          profit: "R$ 18,50",
+          tip: "Trufas caseiras = custo menor, qualidade igual"
+        },
+        {
+          name: "Pistache Artesanal",
+          price: "R$ 25-35",
+          time: "8 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["4 bolas sorvete pistache", "150ml leite", "Pasta pistache 2 col", "Pistaches torrados", "Chantilly", "Raspas chocolate branco"],
+          steps: ["Bata sorvete + leite + pasta pistache", "Sirva em copo elegante", "Chantilly leve", "Pistaches picados", "Raspas chocolate"],
+          cost: "R$ 9,80",
+          profit: "R$ 16,20",
+          tip: "Pistache é tendência - público sofisticado paga bem"
+        },
+        {
+          name: "Lavanda e Mel",
+          price: "R$ 24-32",
+          time: "8 min",
+          popularity: "⭐⭐⭐",
+          ingredients: ["3 bolas sorvete creme", "200ml leite", "Flores lavanda comestível", "Mel especial 3 col", "Chantilly", "Flores decoração"],
+          steps: ["Infusão: leite + lavanda (esfriar)", "Bata sorvete + leite infusionado + mel", "Sirva delicadamente", "Chantilly", "Flores lavanda"],
+          cost: "R$ 8,50",
+          profit: "R$ 16,50",
+          tip: "Sabor único e Instagram-worthy - público gourmet"
+        },
+        {
+          name: "Champagne Rosé Celebration",
+          price: "R$ 32-45",
+          time: "9 min",
+          popularity: "⭐⭐⭐⭐",
+          ingredients: ["4 bolas sorvete morango premium", "100ml leite", "100ml champagne rosé", "Morangos frescos", "Chantilly rosé", "Pétalas rosas"],
+          steps: ["Bata sorvete + leite + champagne", "Sirva em taça de champagne", "Morangos frescos", "Chantilly rosado", "Pétalas comestíveis"],
+          cost: "R$ 11,50",
+          profit: "R$ 21,50",
+          tip: "Perfeito para comemorações - venda casada com flores"
+        }
+      ]
+    }
+  ];
+
+  const pages = [];
+  
+  // Página de capa
+  pages.push(
+    <div key="cover" className="min-h-screen bg-gradient-to-br from-pink-500 via-purple-500 to-blue-500 flex items-center justify-center p-8">
+      <div className="text-center text-white">
+        <div className="mb-8">
+          <div className="text-8xl mb-4">🥤</div>
+        </div>
+        <h1 className="text-6xl font-bold mb-6">50 RECEITAS</h1>
+        <h2 className="text-4xl font-bold mb-8">MILKSHAKES VIRAIS</h2>
+        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 max-w-2xl mx-auto">
+          <p className="text-2xl mb-4">Que Vendem MUITO</p>
+          <p className="text-xl mb-6">+ Precificação + Custos + Dicas Secretas</p>
+          <div className="flex justify-center gap-6 text-lg">
+            <div className="flex items-center gap-2">
+              <DollarSign className="w-6 h-6" />
+              <span>Lucro até R$23</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <TrendingUp className="w-6 h-6" />
+              <span>Receitas Testadas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Página de introdução
+  pages.push(
+    <div key="intro" className="min-h-screen bg-white p-12">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-5xl font-bold text-purple-600 mb-8">Como Usar Este Ebook</h2>
+        
+        <div className="bg-pink-50 rounded-3xl p-8 mb-8">
+          <h3 className="text-3xl font-bold text-pink-600 mb-6">📱 O Que Você Vai Encontrar:</h3>
+          <div className="space-y-4 text-lg">
+            <div className="flex items-start gap-4">
+              <div className="bg-pink-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">1</div>
+              <p><strong>50 Receitas Completas</strong> com ingredientes, modo de preparo e tempo</p>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="bg-pink-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">2</div>
+              <p><strong>Precificação Real</strong> - Quanto cobrar em cada região</p>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="bg-pink-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">3</div>
+              <p><strong>Custo de Produção</strong> calculado por receita</p>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="bg-pink-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">4</div>
+              <p><strong>Lucro Real</strong> que você terá em cada venda</p>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="bg-pink-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">5</div>
+              <p><strong>Dicas Secretas</strong> para cada receita vender mais</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-purple-50 rounded-3xl p-8 mb-8">
+          <h3 className="text-3xl font-bold text-purple-600 mb-6">💰 Potencial de Lucro:</h3>
+          <div className="grid grid-cols-2 gap-6 text-center">
+            <div className="bg-white rounded-2xl p-6">
+              <div className="text-4xl font-bold text-green-600 mb-2">R$ 300-500</div>
+              <p className="text-gray-600">Por dia vendendo 20-30 milkshakes</p>
+            </div>
+            <div className="bg-white rounded-2xl p-6">
+              <div className="text-4xl font-bold text-blue-600 mb-2">R$ 9.000+</div>
+              <p className="text-gray-600">Potencial mensal</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-yellow-50 rounded-3xl p-8">
+          <h3 className="text-3xl font-bold text-yellow-600 mb-6">⚡ Dica de Ouro:</h3>
+          <p className="text-xl text-gray-700 leading-relaxed">
+            Comece com 5-10 receitas e vá testando qual vende mais na sua região. 
+            Foque no visual e na apresentação - milkshake bonito = foto no Instagram = marketing grátis!
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Páginas de receitas por categoria
+  recipes.forEach((category, catIndex) => {
+    // Página de categoria
+    pages.push(
+      <div key={`cat-${catIndex}`} className="min-h-screen bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center p-8">
+        <div className="text-center text-white">
+          <div className="text-7xl mb-6">
+            {catIndex === 0 && "⭐"}
+            {catIndex === 1 && "🍫"}
+            {catIndex === 2 && "🍓"}
+            {catIndex === 3 && "💪"}
+            {catIndex === 4 && "☕"}
+            {catIndex === 5 && "🍰"}
+            {catIndex === 6 && "🍬"}
+            {catIndex === 7 && "🌎"}
+            {catIndex === 8 && "🌱"}
+            {catIndex === 9 && "🎉"}
+            {catIndex === 10 && "👑"}
+          </div>
+          <h2 className="text-6xl font-bold mb-4">{category.category}</h2>
+          <p className="text-2xl">{category.items.length} Receitas Incríveis</p>
+        </div>
+      </div>
+    );
+
+    // Páginas de receitas
+    category.items.forEach((recipe, recIndex) => {
+      pages.push(
+        <div key={`recipe-${catIndex}-${recIndex}`} className="min-h-screen bg-white p-12">
+          <div className="max-w-4xl mx-auto">
+            
+            {/* Header da receita */}
+            <div className="mb-8">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-5xl font-bold text-gray-800">{recipe.name}</h3>
+                <div className="text-3xl">{recipe.popularity}</div>
+              </div>
+              
+              <div className="flex gap-6 text-lg">
+                <div className="flex items-center gap-2 bg-green-100 px-4 py-2 rounded-full">
+                  <DollarSign className="w-5 h-5 text-green-600" />
+                  <span className="font-bold text-green-700">{recipe.price}</span>
+                </div>
+                <div className="flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-full">
+                  <Clock className="w-5 h-5 text-blue-600" />
+                  <span className="font-bold text-blue-700">{recipe.time}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Ingredientes */}
+            <div className="bg-purple-50 rounded-3xl p-8 mb-8">
+              <h4 className="text-3xl font-bold text-purple-600 mb-6">🥤 Ingredientes:</h4>
+              <ul className="space-y-3">
+                {recipe.ingredients.map((ing, i) => (
+                  <li key={i} className="text-xl flex items-start gap-3">
+                    <span className="text-purple-500 font-bold">•</span>
+                    <span>{ing}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Modo de Preparo */}
+            <div className="bg-pink-50 rounded-3xl p-8 mb-8">
+              <h4 className="text-3xl font-bold text-pink-600 mb-6">👨‍🍳 Modo de Preparo:</h4>
+              <ol className="space-y-4">
+                {recipe.steps.map((step, i) => (
+                  <li key={i} className="text-xl flex items-start gap-4">
+                    <span className="bg-pink-500 text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">
+                      {i + 1}
+                    </span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            {/* Custos e Lucro */}
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <div className="bg-red-50 rounded-2xl p-6 text-center">
+                <div className="text-sm text-red-600 font-semibold mb-2">CUSTO</div>
+                <div className="text-3xl font-bold text-red-700">{recipe.cost}</div>
+              </div>
+              <div className="bg-blue-50 rounded-2xl p-6 text-center">
+                <div className="text-sm text-blue-600 font-semibold mb-2">PREÇO VENDA</div>
+                <div className="text-3xl font-bold text-blue-700">{recipe.price}</div>
+              </div>
+              <div className="bg-green-50 rounded-2xl p-6 text-center">
+                <div className="text-sm text-green-600 font-semibold mb-2">LUCRO</div>
+                <div className="text-3xl font-bold text-green-700">{recipe.profit}</div>
+              </div>
+            </div>
+
+            {/* Dica Secreta */}
+            <div className="bg-yellow-50 border-4 border-yellow-300 rounded-3xl p-8">
+              <h4 className="text-2xl font-bold text-yellow-700 mb-4">💡 DICA SECRETA:</h4>
+              <p className="text-xl text-gray-700 leading-relaxed">{recipe.tip}</p>
+            </div>
+
+          </div>
+        </div>
+      );
+    });
+  });
+
+  // Página final - Bônus
+  pages.push(
+    <div key="bonus" className="min-h-screen bg-gradient-to-br from-green-400 to-blue-500 p-12">
+      <div className="max-w-4xl mx-auto text-white">
+        <h2 className="text-6xl font-bold mb-12 text-center">🎁 BÔNUS EXCLUSIVO</h2>
+        
+        <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 mb-8">
+          <h3 className="text-4xl font-bold mb-6">10 Dicas para Vender Muito:</h3>
+          <div className="space-y-4 text-xl">
+            <p><strong>1.</strong> Invista em copos bonitos e descartáveis de qualidade</p>
+            <p><strong>2.</strong> Tire fotos profissionais - celular bom + luz natural = sucesso</p>
+            <p><strong>3.</strong> Poste nos stories TODOS OS DIAS mostrando o preparo</p>
+            <p><strong>4.</strong> Faça promoções: "Compre 2 Leve 3" nos horários mais fracos</p>
+            <p><strong>5.</strong> Peça para clientes marcarem seu perfil nas fotos</p>
+            <p><strong>6.</strong> Crie combos: Milkshake + Brownie por preço especial</p>
+            <p><strong>7.</strong> Tenha sempre ingredientes dos 5 mais vendidos em estoque</p>
+            <p><strong>8.</strong> Capriche na decoração - quanto mais instagramável, melhor</p>
+            <p><strong>9.</strong> Ofereça delivery pelo iFood, Rappi e WhatsApp</p>
+            <p><strong>10.</strong> Crie um "Milkshake do Dia" com desconto especial</p>
+          </div>
+        </div>
+
+        <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 text-center">
+          <h3 className="text-4xl font-bold mb-4">Sucesso nas Vendas! 🚀</h3>
+          <p className="text-2xl">Agora é só colocar em prática e lucrar!</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="bg-gray-100 min-h-screen">
+      {/* Navegação */}
+      <div className="fixed top-0 left-0 right-0 bg-white shadow-lg z-50 p-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <button
+            onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+            disabled={currentPage === 0}
+            className="px-6 py-3 bg-purple-500 text-white rounded-lg font-bold disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-purple-600 transition"
+          >
+            ← Anterior
+          </button>
+          
+          <div className="text-center">
+            <div className="text-xl font-bold text-gray-800">
+              Página {currentPage + 1} de {pages.length}
+            </div>
+            <div className="text-sm text-gray-600">
+              {currentPage === 0 && "Capa"}
+              {currentPage === 1 && "Introdução"}
+              {currentPage > 1 && currentPage < pages.length - 1 && "Receitas"}
+              {currentPage === pages.length - 1 && "Bônus"}
+            </div>
+          </div>
+          
+          <button
+            onClick={() => setCurrentPage(Math.min(pages.length - 1, currentPage + 1))}
+            disabled={currentPage === pages.length - 1}
+            className="px-6 py-3 bg-purple-500 text-white rounded-lg font-bold disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-purple-600 transition"
+          >
+            Próxima →
+          </button>
+        </div>
+      </div>
+
+      {/* Conteúdo da página */}
+      <div className="pt-24">
+        {pages[currentPage]}
+      </div>
+
+      {/* Barra de progresso */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="w-full bg-gray-200 rounded-full h-3">
+            <div
+              className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full transition-all duration-300"
+              style={{ width: `${((currentPage + 1) / pages.length) * 100}%` }}
+            ></div>
+          </div>
+          <div className="text-center mt-2 text-sm text-gray-600">
+            {Math.round(((currentPage + 1) / pages.length) * 100)}% concluído
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EbookMilkshakes;
